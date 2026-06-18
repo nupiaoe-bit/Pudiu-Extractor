@@ -2,9 +2,13 @@
 
 ### —— 下一代网页数据清洗与深度提取工具
 
-插件介绍  https://url.pudiu.com   [关于我们](https://url.pudiu.com/about.html)     [在线多参数提取器](https://url.pudiu.com/tool.html)
-  [ 在线JSON精准提取工具 ](https://url.pudiu.com/post.html)
-谷歌应用商店 [直达下载](https://chromewebstore.google.com/detail/pudiu%E8%B5%84%E6%BA%90%E7%8C%8E%E6%89%8B-%E9%AB%98%E7%BA%A7%E6%95%B0%E6%8D%AE%E6%8F%90%E5%8F%96%E5%99%A8/jhgjlkigabpecmibnjhcaoalgbappodl?pli=1)
+插件介绍  https://url.pudiu.com   [关于我们](https://url.pudiu.com/about.html)    
+
+[在线多参数提取器](https://url.pudiu.com/tool.html)
+
+[ 在线JSON精准提取工具 ](https://url.pudiu.com/post.html)
+
+Chrome 应用商店 [直达下载](https://chromewebstore.google.com/detail/pudiu%E8%B5%84%E6%BA%90%E7%8C%8E%E6%89%8B-%E9%AB%98%E7%BA%A7%E6%95%B0%E6%8D%AE%E6%8F%90%E5%8F%96%E5%99%A8/jhgjlkigabpecmibnjhcaoalgbappodl?pli=1)
 
 Edge 扩展  [直达下载](https://microsoftedge.microsoft.com/addons/detail/pudiu%E8%B5%84%E6%BA%90%E7%8C%8E%E6%89%8B-%E9%AB%98%E7%BA%A7%E6%95%B0%E6%8D%AE%E6%8F%90%E5%8F%96%E5%99%A8/kdelhflebakhpoockhimanlbadodneig)
 
@@ -61,3 +65,5 @@ Edge 扩展  [直达下载](https://microsoftedge.microsoft.com/addons/detail/pu
 ### 💡 为什么选择 Pudiu 资源猎手？
 
 > 当您面对一个含有 100 页需要翻页的竞标网站、一个藏满嵌套 JSON 的 AI 溯源卡片、亦或是一堆夹杂着电话邮箱的混乱代码时——**打开 Pudiu，开启连续汇总，设置包含与排除，点击复制。** 以前需要写一个下午 Python 脚本的工作，现在只需 10 秒钟。
+>
+> 其他插件 https://hunter.pudiu.com/
