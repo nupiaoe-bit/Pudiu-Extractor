@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title data-i18n="extensionName">Pudiu资源猎手</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
+    body { width: 560px; padding: 1rem; background: #f0f4fa; color: #1a2c3e; overflow-x: hidden;}
+    .container { display: flex; flex-direction: column; gap: 0.8rem; }
+    .header { background: white; padding: 1rem 1.2rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); display: flex; align-items: center; gap: 1rem; }
+    .header img { width: 48px; height: 48px; border-radius: 10px; object-fit: contain; }
+    .header-text h1 { font-size: 1.25rem; color: #1e4b6e; margin-bottom: 0.2rem; display: flex; align-items: center; gap: 8px;}
+    .version-badge { font-size: 0.75rem; background: #e0f2fe; color: #0284c7; padding: 3px 8px; border-radius: 6px; font-weight: normal;}
+    .header-text p { font-size: 0.8rem; color: #64748b; }
+    .mode-tabs { display: flex; background: #e2e8f0; border-radius: 10px; padding: 0.3rem; gap: 0.3rem; }
+    .tab-btn { flex: 1; text-align: center; padding: 0.5rem; font-size: 0.9rem; font-weight: 600; color: #64748b; cursor: pointer; border-radius: 8px; transition: all 0.2s; }
+    .tab-btn.active { background: white; color: #2563eb; box-shadow: 0 2px 6px rgba(0,0,0,0.08); }
+    .status { text-align: center; padding: 0.8rem; border-radius: 8px; font-size: 0.85rem; font-weight: 500; display: none;}
+    .loading { background: #e0f2fe; color: #0284c7; display: block;}
+    .success { background: #d1fae5; color: #059669; }
+    .error { background: #fee2e2; color: #dc2626; }
+    .card { background: white; border-radius: 12px; padding: 1.2rem; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid #e9edf2; }
+    .card-title { font-size: 0.9rem; font-weight: 600; color: #2c5282; margin-bottom: 0.8rem; display: flex; justify-content: space-between; align-items: center; }
+    .filter-row { display: flex; gap: 0.8rem; margin-bottom: 0.8rem; }
+    .filter-input-wrap { flex: 1; display: flex; flex-direction: column; gap: 0.4rem; }
+    .filter-input-wrap label { font-size: 0.75rem; color: #4a627a; font-weight: 600; }
+    .filter-input { width: 100%; padding: 0.6rem; border: 1px solid #cbdde9; border-radius: 8px; font-size: 0.85rem; transition: all 0.2s; }
+    .filter-input:focus { outline: none; border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59,130,246,0.15); }
+    .options-row { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 0.2rem; padding-top: 0.6rem; border-top: 1px dashed #e2e8f0;}
+    .checkbox-label { display: flex; align-items: center; gap: 0.4rem; font-size: 0.8rem; color: #4a5568; cursor: pointer; }
+    .checkbox-highlight { color: #ea580c; font-weight: bold; width: 100%; padding-top: 0.4rem;}
+    .text-mode-area { display: none; }
+    #rawTextInput { width: 100%; height: 120px; padding: 0.8rem; border: 1px solid #cbdde9; border-radius: 8px; font-size: 0.85rem; resize: vertical; font-family: monospace; }
+    #rawTextInput:focus { outline: none; border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59,130,246,0.15); }
+    .advanced-toggle { cursor: pointer; user-select: none; }
+    .preset-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.6rem; }
+    .preset-group { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px dashed #e2e8f0; }
+    .preset-btn { background: #eef2f6; border: 1px solid #d4e0ea; color: #2c5282; padding: 0.4rem 0.6rem; border-radius: 6px; font-size: 0.75rem; cursor: pointer; display: flex; align-items: center; gap: 0.3rem; transition: all 0.2s; }
+    .preset-btn:hover { background: #dbe4f0; }
+    .preset-btn .del-btn { color: #94a3b8; font-weight: bold; margin-left: 0.2rem; }
+    .preset-btn .del-btn:hover { color: #dc2626; }
+    .btn-text { background: none; border: none; color: #3b82f6; font-size: 0.8rem; cursor: pointer; }
+    .btn-text:hover { text-decoration: underline; }
+    .preset-form { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.8rem; margin-bottom: 1rem; display: flex; flex-direction: column; gap: 0.5rem; }
+    .preset-form input { padding: 0.5rem; border: 1px solid #cbdde9; border-radius: 4px; font-size: 0.8rem; }
+    .preset-form-actions { display: flex; gap: 0.5rem; justify-content: flex-end; margin-top: 0.3rem; }
+    .preset-form-actions button { padding: 0.3rem 0.8rem; border: none; border-radius: 4px; font-size: 0.8rem; cursor: pointer; color: white;}
+    .btn-save { background: #10b981; } .btn-cancel { background: #94a3b8; }
+    .input-group { display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 0.8rem; }
+    .input-group label { font-size: 0.75rem; color: #4a627a; font-weight: 500; }
+    .input-group input { padding: 0.6rem; border: 1px solid #cbdde9; border-radius: 6px; font-family: monospace; font-size: 0.85rem; background: #f8fafc; }
+    .controls { display: flex; gap: 0.8rem; }
+    .btn { padding: 0.7rem 1rem; border: none; border-radius: 8px; font-size: 0.9rem; font-weight: 500; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.4rem; transition: 0.2s;}
+    .btn-refresh { background: #e2e8f0; color: #4a5568; } .btn-refresh:hover { background: #cbd5e1; }
+    .btn-action { background: #2563eb; color: white; flex: 1; } .btn-action:hover { background: #1d4ed8; }
+    .btn-copy { background: #10b981; color: white; flex: 1; } .btn-copy:hover { background: #059669; }
+    .btn-clear-pool { background: #fee2e2; color: #dc2626; border: 1px solid #fecaca;} .btn-clear-pool:hover { background: #fecaca; }
+    .links-list { max-height: 250px; overflow-y: auto; display: flex; flex-direction: column; gap: 0.5rem; }
+    .link-item { background: #f8fafc; padding: 0.8rem; border-radius: 8px; border-left: 3px solid #3b82f6; display: flex; flex-direction: column; gap: 0.4rem; word-break: break-all;}
+    .link-item.hidden { display: none; }
+    .processed-result { color: #1e4b6e; font-size: 0.85rem; font-weight: 600; }
+    .raw-url { color: #94a3b8; font-size: 0.75rem; text-decoration: none; }
+    .raw-url:hover { text-decoration: underline; }
+    .empty-state { text-align: center; padding: 1.5rem 0; color: #94a3b8; font-size: 0.9rem; display: none;}
+    .about-card { background: linear-gradient(145deg, #ffffff, #f8fafc); border: 1px dashed #cbdde9; margin-top: 0.5rem; padding: 1rem 1.2rem; }
+    .about-card .card-title { margin-bottom: 0.5rem; color: #4a627a; }
+    .about-content { font-size: 0.8rem; color: #4a5568; line-height: 1.6; }
+    .about-features { padding-left: 1.2rem; margin: 0.4rem 0; color: #64748b; }
+    .about-features li { margin-bottom: 0.2rem; }
+    .about-website { margin-top: 0.6rem; display: inline-block; background: #eef2f6; padding: 0.3rem 0.8rem; border-radius: 6px; color: #2563eb; text-decoration: none; font-weight: 500; transition: background 0.2s;}
+    .about-website:hover { background: #e0e7ff; text-decoration: underline; }
+    .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(50px); background: #10b981; color: white; padding: 0.6rem 1.2rem; border-radius: 30px; font-size: 0.9rem; opacity: 0; transition: all 0.3s; z-index: 9999; box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    .toast.error { background: #dc2626; }
+    .links-list::-webkit-scrollbar { width: 6px; }
+    .links-list::-webkit-scrollbar-track { background: transparent; }
+    .links-list::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <img src="icons/icon48.png" alt="Logo" onerror="this.style.display='none'">
+      <div class="header-text">
+        <h1>Pudiu<span class="version-badge" data-i18n="versionBadge"></span></h1>
+        <p data-i18n="headerDesc"></p>
+      </div>
+    </div>
+
+    <div class="mode-tabs">
+      <div class="tab-btn active" id="tabWeb" data-i18n="tabWeb"></div>
+      <div class="tab-btn" id="tabText" data-i18n="tabText"></div>
+    </div>
+    
+    <div class="status loading" id="loadingStatus" data-i18n="loadingMsg"></div>
+    <div class="status success" id="successStatus"></div>
+    <div class="status error" id="errorStatus" data-i18n="errorMsg"></div>
+
+    <div id="mainUI" style="display: none;" class="container">
+      <div class="card text-mode-area" id="textModeCard">
+        <div class="card-title" data-i18n="textModeTitle"></div>
+        <textarea id="rawTextInput" data-i18n-placeholder="textModePlaceholder"></textarea>
+        <div class="controls" style="margin-top: 0.8rem;">
+          <button class="btn btn-action" id="extractTextBtn" data-i18n="extractTextBtn"></button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title" data-i18n="filterTitle"></div>
+        <div class="filter-row">
+          <div class="filter-input-wrap">
+            <label data-i18n="includeLabel"></label>
+            <input type="text" class="filter-input" id="includeInput" data-i18n-placeholder="includePlaceholder">
+          </div>
+          <div class="filter-input-wrap">
+            <label data-i18n="excludeLabel"></label>
+            <input type="text" class="filter-input" id="excludeInput" data-i18n-placeholder="excludePlaceholder">
+          </div>
+        </div>
+        <div class="options-row">
+          <label class="checkbox-label"><input type="checkbox" id="dedupCb" checked> <span data-i18n="dedupLabel"></span></label>
+          <label class="checkbox-label" id="internalFilterWrap"><input type="checkbox" id="excludeInternalCb"> <span data-i18n="excludeInternalLabel"></span></label>
+          <label class="checkbox-label checkbox-highlight">
+            <input type="checkbox" id="continuousCb"> <span data-i18n="continuousLabel"></span>
+          </label>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title advanced-toggle" id="toggleAdvanced">
+          <span data-i18n="advancedToggle"></span>
+          <span id="advancedArrow">▼</span>
+        </div>
+        
+        <div id="advancedContent" style="display: none; margin-top: 1rem;">
+          <div class="preset-header">
+            <span style="font-size: 0.75rem; color:#94a3b8;" data-i18n="presetHeader"></span>
+            <button class="btn-text" id="showAddPresetBtn" data-i18n="showAddPresetBtn"></button>
+          </div>
+          <div class="preset-form" id="addPresetForm" style="display: none;">
+            <input type="text" id="newPresetName" data-i18n-placeholder="newPresetName">
+            <input type="text" id="newPresetRegex" data-i18n-placeholder="newPresetRegex">
+            <input type="text" id="newPresetTemplate" data-i18n-placeholder="newPresetTemplate">
+            <div class="preset-form-actions">
+              <button class="btn-cancel" id="cancelPresetBtn" data-i18n="cancelBtn"></button>
+              <button class="btn-save" id="savePresetBtn" data-i18n="saveBtn"></button>
+            </div>
+          </div>
+          <div class="preset-group" id="presetContainer"></div>
+          <div class="input-group">
+            <label data-i18n="regexLabel"></label>
+            <input type="text" id="regexInput" data-i18n-placeholder="regexPlaceholder">
+          </div>
+          <div class="input-group">
+            <label data-i18n="templateLabel"></label>
+            <input type="text" id="templateInput" data-i18n-placeholder="templatePlaceholder">
+          </div>
+        </div>
+      </div>
+
+      <div class="controls">
+        <button class="btn btn-refresh" id="refreshBtn" data-i18n="refreshBtn"></button>
+        <button class="btn btn-clear-pool" id="clearPoolBtn" style="display:none;" data-i18n="clearPoolBtn"></button>
+        <button class="btn btn-copy" id="copyAllBtn" data-i18n="copyAllBtn"></button>
+      </div>
+
+      <div class="card" style="padding: 0.8rem;">
+        <div class="links-list" id="linksList"></div>
+        <div class="empty-state" id="filterEmpty" data-i18n="filterEmpty"></div>
+      </div>
+
+      <div class="card about-card">
+        <div class="card-title" style="font-size: 0.85rem;" data-i18n="aboutTitle"></div>
+        <div class="about-content">
+          <p data-i18n="aboutDesc"></p>
+          <ul class="about-features">
+            <li data-i18n="aboutFeat1"></li>
+            <li data-i18n="aboutFeat2"></li>
+            <li data-i18n="aboutFeat3"></li>
+          </ul>
+          <a href="http://www.pudiu.com/" target="_blank" class="about-website" data-i18n="aboutWebsite"></a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="toast" id="copySuccessToast"></div>
+  <div class="toast error" id="copyErrorToast"></div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
