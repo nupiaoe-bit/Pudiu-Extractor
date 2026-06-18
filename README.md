@@ -4,6 +4,9 @@
 
 官网  https://url.pudiu.com/about.html
 
+谷歌应用商店 https://chromewebstore.google.com/detail/pudiu%E8%B5%84%E6%BA%90%E7%8C%8E%E6%89%8B-%E9%AB%98%E7%BA%A7%E6%95%B0%E6%8D%AE%E6%8F%90%E5%8F%96%E5%99%A8/jhgjlkigabpecmibnjhcaoalgbappodl?pli=1
+Edge 扩展  https://microsoftedge.microsoft.com/addons/detail/pudiu%E8%B5%84%E6%BA%90%E7%8C%8E%E6%89%8B-%E9%AB%98%E7%BA%A7%E6%95%B0%E6%8D%AE%E6%8F%90%E5%8F%96%E5%99%A8/kdelhflebakhpoockhimanlbadodneig
+
 ## 📖 工具简介
 
 **Pudiu资源猎手**是一款专为开发者、数据分析师、跨境电商运营及科研人员打造的**全能型前端数据捕获与清洗生态**。它不仅打破了传统网络爬虫需要编写复杂代码的门槛，更终结了普通链接提取器“遇防护即抓瞎、单页重复操作繁琐”的痛点。
