@@ -66,4 +66,11 @@ Edge 扩展  [直达下载](https://microsoftedge.microsoft.com/addons/detail/pu
 
 > 当您面对一个含有 100 页需要翻页的竞标网站、一个藏满嵌套 JSON 的 AI 溯源卡片、亦或是一堆夹杂着电话邮箱的混乱代码时——**打开 Pudiu，开启连续汇总，设置包含与排除，点击复制。** 以前需要写一个下午 Python 脚本的工作，现在只需 10 秒钟。
 >
-> 其他插件 https://hunter.pudiu.com/
+>
+> 其他浏览器插件
+
+>Pudiu资源猎手
+>  https://hunter.pudiu.com/
+>
+>IP查询工具
+> https://ip.pudiu.com/
